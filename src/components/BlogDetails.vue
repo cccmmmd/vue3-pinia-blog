@@ -4,13 +4,13 @@
         <div class="icons">
         <i 
             class="material-icons" 
-            @click="blogStore.deleteTask(post.id)">
+            @click="blogStore.deletePost(post.id)">
             delete
         </i>
         <i 
             class="material-icons"
             :class="{active: post.isFav}" 
-            @click="blogStore.toggleFav(post.id)">
+            @click="blogStore.addFav(post.id)">
             favorite
         </i>
         </div>
