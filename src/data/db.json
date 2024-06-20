@@ -1,0 +1,24 @@
+{
+  "posts": [
+    {
+      "id": "2",
+      "content": "只要想做一件事，全宇宙都會幫你",
+      "isFav": true
+    },
+    {
+      "id": "3",
+      "content": "拜託讓我找到好工作",
+      "isFav": true
+    },
+    {
+      "id": "55",
+      "content": "加油加油 不要放棄！",
+      "isFav": false
+    },
+    {
+      "id": "69",
+      "content": "今天有點認真",
+      "isFav": false
+    }
+  ]
+}

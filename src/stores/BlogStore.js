@@ -2,11 +2,8 @@ import { defineStore } from "pinia";
 
 export const useBlogStore = defineStore('taskStore', {
     state: () => ({
-        posts: [
-            {id: 1, content: "今天好熱事事不順", isFav: false},
-            {id: 2, content: "只要想做一件事，全宇宙都會幫你", isFav: true},
-            {id: 3, content: "拜託讓我找到好工作", isFav: true} 
-        ]
+        posts: [],
+        loading: false
     }),
     getters: {
         favs(){
@@ -22,21 +19,52 @@ export const useBlogStore = defineStore('taskStore', {
         }
     },
     actions: {
-        addPost(post){
-            this.posts.push(post)
+        async fetchPosts() {
+            this.loading = true
+            const data = await fetch('http://localhost:3000/posts').then( res => res.json())
+            this.posts = data
+            this.loading = false
         },
-        deletePost(id){
-            console.log(id)
-            this.posts =  this.posts.filter( p => {
-                return p.id !== id
+        async addPost(post){
+            this.posts.unshift(post)
+            const res = await fetch('http://localhost:3000/posts', {
+                method: 'POST',
+                body: JSON.stringify(post),
+                headers: {'Content-Type': 'application/json'}
             })
+
+            if(res.error){
+                console.log(res.error)
+            }
         },
-        addFav(id){
+        async deletePost(id) {
+            this.posts = this.posts.filter(p => {
+              return p.id !== id
+            })
+      
+            const res = await fetch('http://localhost:3000/posts/' + id, {
+              method: 'DELETE',
+            })
+      
+            if (res.error) {
+              console.log(res.error)
+            }
+          },
+        async addFav(id){
             const post = this.posts.find(t => t.id === id)
             post.isFav = !post.isFav
+
+            const res = await fetch('http://localhost:3000/posts/' + id, {
+                method: 'PATCH',
+                body: JSON.stringify({isFav: post.isFav}),
+                headers: {'Content-Type': 'application/json'}
+            })
+
+            if(res.error){
+                console.log(res.error)
+            }
         }
-    }
-    
+    } 
 }
 
 )
